@@ -12,7 +12,7 @@ import (
 	"github.com/anacrolix/torrent/metainfo"
 )
 
-//the Engine Cloud Torrent engine, backed by anacrolix/torrent
+// the Engine Cloud Torrent engine, backed by anacrolix/torrent
 type Engine struct {
 	mut      sync.Mutex
 	cacheDir string
@@ -38,22 +38,28 @@ func (e *Engine) Configure(c Config) error {
 	if c.IncomingPort <= 0 {
 		return fmt.Errorf("Invalid incoming port (%d)", c.IncomingPort)
 	}
-	tc := torrent.ClientConfig{
-		// DhtStartingNodes: dht.GlobalBootstrapAddrs,
-		DataDir: c.DownloadDirectory,
-		ListenHost: func(network string) string {
-			return "127.0.0.1"
-		},
-		ListenPort: c.IncomingPort,
-		NoUpload:   !c.EnableUpload,
-		Seed:       c.EnableSeeding,
-	}
-	// tc.DisableEncryption = c.DisableEncryption
+	tc := *torrent.NewDefaultClientConfig()
+	// tc = torrent.ClientConfig{
+	// 	DataDir:    c.DownloadDirectory,
+	// 	ListenHost: func(network string) string { return "0.0.0.0" },
+	// 	ListenPort: c.IncomingPort,
+	// 	NoUpload:   !c.EnableUpload,
+	// 	Seed:       c.EnableSeeding,
+	// }
+	tc.DataDir = c.DownloadDirectory
+	tc.ListenPort = 3001
+	tc.NoUpload = !c.EnableUpload
+	tc.Seed = c.EnableSeeding
 
+	// tc.DisableEncryption = c.DisableEncryption
+	// tc.SetListenAddr("0.0.0.0")
+	// tc.DisableIPv6 = true
+	// tc.ListenPort = c.IncomingPort
 	client, err := torrent.NewClient(&tc)
 	if err != nil {
 		return err
 	}
+	fmt.Println("client:", client)
 	e.mut.Lock()
 	e.config = c
 	e.client = client
@@ -90,8 +96,8 @@ func (e *Engine) newTorrent(tt *torrent.Torrent) error {
 	return nil
 }
 
-//GetTorrents moves torrents out of the anacrolix/torrent
-//and into the local cache
+// GetTorrents moves torrents out of the anacrolix/torrent
+// and into the local cache
 func (e *Engine) GetTorrents() map[string]*Torrent {
 	e.mut.Lock()
 	defer e.mut.Unlock()

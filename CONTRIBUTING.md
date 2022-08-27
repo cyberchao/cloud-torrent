@@ -22,3 +22,6 @@ To add new dependencies:
 * `godep save && rm -rf Godep/`
 * Now `vendor/` should contain the latest deps for all packages
 * Test with `go install -v` and you should see the build targeting packages within `vendor/...`
+
+
+CGO_ENABLED=0  GOOS=linux  GOARCH=amd64  go build main.go
