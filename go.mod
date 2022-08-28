@@ -7,11 +7,13 @@ require (
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/anacrolix/torrent v1.46.0
 	github.com/andrew-d/go-termutil v0.0.0-20150726205930-009166a695a2 // indirect
+	github.com/artdarek/go-unzip v1.0.0 // indirect
 	github.com/elazarl/go-bindata-assetfs v1.0.1
 	github.com/elithrar/simple-scrypt v1.3.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/gavv/httpexpect v1.1.3 // indirect
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
+	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jpillora/ansi v1.0.3 // indirect
 	github.com/jpillora/archive v0.0.0-20160301031048-e0b3681851f1

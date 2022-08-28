@@ -25,7 +25,7 @@ import (
 	"github.com/skratchdot/open-golang/open"
 )
 
-//Server is the "State" portion of the diagram
+// Server is the "State" portion of the diagram
 type Server struct {
 	//config
 	Title      string `help:"Title of this instance" env:"TITLE"`
@@ -241,6 +241,11 @@ func (s *Server) handle(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 		}
+		return
+	}
+	//api call
+	if strings.HasPrefix(r.URL.Path, "/torrent/status") {
+		json.NewEncoder(w).Encode(s.state.Torrents)
 		return
 	}
 	//no match, assume static file

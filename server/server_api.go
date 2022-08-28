@@ -23,6 +23,7 @@ func (s *Server) api(r *http.Request) error {
 	action := strings.TrimPrefix(r.URL.Path, "/api/")
 
 	data, err := ioutil.ReadAll(r.Body)
+	fmt.Println(r.URL.Path, action, string(data))
 	if err != nil {
 		return fmt.Errorf("Failed to download request body")
 	}
